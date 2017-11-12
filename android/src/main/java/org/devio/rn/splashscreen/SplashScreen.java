@@ -2,6 +2,7 @@ package org.devio.rn.splashscreen;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.support.annotation.StyleRes;
 
 import java.lang.ref.WeakReference;
 
@@ -20,7 +21,7 @@ public class SplashScreen {
     /**
      * 打开启动屏
      */
-    public static void show(final Activity activity, final boolean fullScreen) {
+    public static void show(final Activity activity, final @StyleRes int themeResId) {
         if (activity == null) return;
         mActivity = new WeakReference<Activity>(activity);
         activity.runOnUiThread(new Runnable() {
@@ -28,7 +29,7 @@ public class SplashScreen {
             public void run() {
                 if (!activity.isFinishing()) {
 
-                    mSplashDialog = new Dialog(activity, fullScreen ? R.style.SplashScreen_Fullscreen : R.style.SplashScreen_SplashTheme);
+                    mSplashDialog = new Dialog(activity, themeResId);
                     mSplashDialog.setContentView(R.layout.launch_screen);
                     mSplashDialog.setCancelable(false);
 
@@ -38,6 +39,13 @@ public class SplashScreen {
                 }
             }
         });
+    }
+
+    /**
+     * 
+     */
+    public static void show(final Activity activity, final boolean fullScreen) {
+        show(activity, fullScreen ? R.style.SplashScreen_Fullscreen : R.style.SplashScreen_SplashTheme);
     }
 
     /**
